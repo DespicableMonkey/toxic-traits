@@ -9,6 +9,7 @@ import { store, persistor } from './util/redux/store';
 import NotFoundPage from './NotFound/NotFoundPage';
 import HomePage from './Home/HomePage';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage';
+import ToxicTraitPage from './ToxicPeople/ToxicTraitPage';
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
@@ -32,12 +33,14 @@ function App() {
                 <Routes>
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
+                    <Route path="/toxic-traits" element={<ToxicTraitPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route
                       path="/verify-account/:token"
                       element={<VerifyAccountPage />}
                     />
+
                     <Route
                       path="/email-reset"
                       element={<EmailResetPasswordPage />}
@@ -64,7 +67,6 @@ function App() {
                   />
 
                   {/* Route which is accessed if no other route is matched */}
-                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </CssBaseline>
             </ThemeProvider>
