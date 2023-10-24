@@ -1,7 +1,11 @@
 import React from 'react';
-import { Grid } from '@mui/material';
+import { TextField, Link, Typography, Grid  } from '@mui/material';
 import PersonCard from './Card';
-import { ToxicPerson, IToxicPerson } from '../../../server/src/models/toxicperson.model'
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+// import { ToxicPerson, IToxicPerson } from '../../../server/src/models/toxicperson.model'
+import { useNavigate } from "react-router-dom";
 
 interface Person {
     _id: string;
@@ -37,13 +41,31 @@ interface Person {
   ]
 
 function ToxicTraitsPage() {
+
+    const navigate = useNavigate();
+  
+    function handleClick() {
+      navigate("/ToxicTraitIndividual");
+    }
+  
   return (
     <div>
-        <h1> hello </h1>
+        <h1> toxic traits </h1>
+        <Grid item>
+        <TextField 
+          variant="outlined" 
+          fullWidth
+          placeholder="Search for people"
+        />
+      </Grid>
         <Grid container spacing={3}>
             {people.map((person, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
-                <PersonCard name={person.firstName} image={person.pictureUrl} />
+                  <CardActions>
+                  <Button type="button" onClick={handleClick}>
+                <PersonCard name={person.firstName} image={person.pictureUrl}  />
+                </Button>
+                </CardActions>
                 </Grid>
             ))}
         </Grid>
