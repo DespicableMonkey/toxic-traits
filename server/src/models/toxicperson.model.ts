@@ -5,7 +5,7 @@ interface IToxicPerson extends mongoose.Document {
   firstName: string;
   lastName: string;
   pictureUrl: string;
-  toxicTraits: [string];
+  toxicTraits: string[];
 }
 
 const ToxicPersonSchema = new mongoose.Schema({

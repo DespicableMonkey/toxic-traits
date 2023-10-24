@@ -8,6 +8,7 @@ import { CardActionArea } from '@mui/material';
 interface PersonCardProps {
   name: string;
   image: string;
+  description: string[];
 }
 
 export default function PersonCard(props: PersonCardProps) {
@@ -24,6 +25,11 @@ export default function PersonCard(props: PersonCardProps) {
           <Typography gutterBottom variant="h5" component="div">
             {props.name}
           </Typography>
+          {props.description.map((trait, index) => (
+            <Typography gutterBottom variant="body2" component="div">
+            {trait}
+            </Typography>
+          ))}
         </CardContent>
       </CardActionArea>
     </Card>
