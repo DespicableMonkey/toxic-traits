@@ -10,6 +10,9 @@ import NotFoundPage from './NotFound/NotFoundPage';
 import HomePage from './Home/HomePage';
 import AdminDashboardPage from './AdminDashboard/AdminDashboardPage';
 import ToxicTraitPage from './ToxicPeople/ToxicTraitPage';
+import ToxicTraitIndividual from './ToxicPeople/ToxicTraitIndividual';
+
+
 import {
   UnauthenticatedRoutesWrapper,
   ProtectedRoutesWrapper,
@@ -34,12 +37,15 @@ function App() {
                   {/* Routes accessed only if user is not authenticated */}
                   <Route element={<UnauthenticatedRoutesWrapper />}>
                     <Route path="/toxic-traits" element={<ToxicTraitPage />} />
+                    <Route path="/toxicTraitIndividual" element={<ToxicTraitIndividual />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route
                       path="/verify-account/:token"
                       element={<VerifyAccountPage />}
                     />
+                    <Route path="/ToxicTraitIndividual/:id" element={<ToxicTraitIndividual />} />
+
 
                     <Route
                       path="/email-reset"
