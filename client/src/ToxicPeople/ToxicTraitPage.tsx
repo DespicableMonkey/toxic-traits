@@ -154,6 +154,18 @@ function ToxicTraitsPage() {
       getAllPeople()
     }, [])
 
+    function isvalidURL(str: string) {
+      let url;
+      
+      try {
+        url = new URL(str);
+      } catch (_) {
+        return false;  
+      }
+    
+      return url.protocol === "http:" || url.protocol === "https:";
+    }
+
     async function createTrait2(firstname:string, lastname:string, pictureUrl: string, traits: string[] ) {
       const res = await postData('toxic/create', {
         firstName: firstname,
@@ -188,8 +200,8 @@ function ToxicTraitsPage() {
         alert("Please enter a last name");
         return;
       }
-      if(!pictureUrl) {
-        alert("Please enter a picture");
+      if(!pictureUrl || !(isvalidURL(pictureUrl))) {
+        alert("Please enter a valid picture URL");
         return;
       }
       if(splits.length < 3 ) {

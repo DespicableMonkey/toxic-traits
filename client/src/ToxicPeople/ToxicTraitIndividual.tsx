@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { postData } from '../util/api';
 import { get } from 'http';
 import './invid.css'
+import {Modal, Box} from '@mui/material';
 
 interface Person {
     _id: string;
@@ -61,6 +62,36 @@ function ToxicTraitIndividual() {
       }
     }
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const style = {
+      position: 'absolute' as 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 800,
+      bgcolor: 'background.paper',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
+
+    function handleUpdate () {
+
+    }
+
+    function arrayToString(traits: string[]) {
+      let res = "";
+
+      traits.forEach((e) => {
+        res += (e + "\n")
+      })
+      res = res.slice(0, -1)
+
+      return res
+    }
+
   return (
     <div>
         { person &&
@@ -78,7 +109,7 @@ function ToxicTraitIndividual() {
                 Back
                 </div>
                 <div className="posright">
-                <div className="updatebutton" onClick={goBack}>
+                <div className="updatebutton" onClick={handleOpen}>
                 Update
                 </div>
                 <div className="deletebutton" onClick={del}>
@@ -95,6 +126,38 @@ function ToxicTraitIndividual() {
                 <div className="trait">{e}</div>
             ))}
             </div>
+            <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+           <div className="modalwrapper">
+              <div className="modalheader">Update Trait</div>
+              <div className="feilds">
+                <TextField required id="firstname" label="First Name" variant="outlined" className="inputF" value={(person as Person).firstName} /  >
+                <TextField required id="lastname" label="Last Name" variant="outlined" className="inputF" value={(person as Person).lastName} /  >
+                <TextField required id="pictureUrl" label="Picture URL" variant="outlined" className="inputF" value={(person as Person).pictureUrl} /  >
+              </div>
+              <div className="desc">
+                
+                  Write each toxic trait on a new line
+                
+              </div>
+              <div className="feilds">
+                <TextField multiline required id="toxictraits" label="Toxic Traits" variant="outlined" className="inputF" 
+                value={arrayToString((person as Person).toxicTraits)}
+                
+                /  >
+              </div>
+              <div className="footer">
+                <div className="cancelbutton" onClick={handleClose}>Cancel</div>
+                <div className="confirmbutton" onClick={handleUpdate}>Update</div>
+              </div>
+           </div>
+          </Box>
+        </Modal>
         </div>
         }
         
