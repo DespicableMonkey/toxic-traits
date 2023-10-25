@@ -13,7 +13,7 @@ const createToxicTrait = async (
   firstName: string,
   lastName: string,
   pictureURL: string,
-  toxicTraits: [string],
+  toxicTraits: string[],
 ) => {
   const newToxicPerson = new ToxicPerson({
     firstName,
@@ -30,6 +30,14 @@ const getToxicTraitByID = async (id: string) => {
   return toxicPerson;
 };
 
+const getToxicTraitByName = async (firstname: string, lastname: string) => {
+  const toxicPerson = await ToxicPerson.findOne({
+    firstName: firstname,
+    lastName: lastname
+  }).exec()
+  return toxicPerson;
+};
+
 const deleteToxicTraitByID = async (id: string) => {
   const toxicPerson = await ToxicPerson.findByIdAndDelete(id).exec();
   return toxicPerson;
@@ -40,7 +48,7 @@ const updateToxicPersonById = async (
   firstName: string,
   lastName: string,
   pictureURL: string,
-  toxicTraits: [string],
+  toxicTraits: string[],
 ) => {
   const toxicPerson = await ToxicPerson.findByIdAndUpdate(id, [
     {
@@ -60,5 +68,6 @@ export {
   createToxicTrait,
   getToxicTraitByID,
   deleteToxicTraitByID,
+  getToxicTraitByName,
   updateToxicPersonById,
 };
