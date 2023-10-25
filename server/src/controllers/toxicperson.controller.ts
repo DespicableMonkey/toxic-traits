@@ -123,16 +123,16 @@ const getToxicTraitFromID = async (
     
   
     // Check if user exists
-    // const existingToxicTrait: IToxicPerson | null = await getToxicTraitByName(firstName, lastName)
+    const existingToxicTrait: IToxicPerson | null = await getToxicTraitByName(firstName, lastName)
 
-    // if (existingToxicTrait) {
-    //   next(
-    //     ApiError.badRequest(
-    //       `An account with email ${firstName} and ${lastName} already exists.`,
-    //     ),
-    //   );
-    //   return;
-    // }
+    if (existingToxicTrait) {
+      next(
+        ApiError.badRequest(
+          `An account with email ${firstName} and ${lastName} already exists.`,
+        ),
+      );
+      return;
+    }
 
 
     // Create toxic trait
@@ -155,6 +155,7 @@ const getToxicTraitFromID = async (
     next: express.NextFunction,
   ) => {
     const { id, firstName, lastName, pictureUrl, toxictraits } = req.body;
+    const s : [string] = toxictraits
     if (!id || !firstName || !lastName || !pictureUrl || !toxictraits) {
       next(
         ApiError.missingFields(['id', 'firstName', 'lastName', 'pictureUrl', 'toxictraits']),
@@ -193,9 +194,8 @@ const getToxicTraitFromID = async (
         firstName,
         lastName,
         pictureUrl,
-        toxictraits
+        s
       );
-      await toxicTraits!.save()
       res.sendStatus(StatusCode.CREATED);
     } catch (err) {
       next(ApiError.internal('Could not update Toxic Trait.'));

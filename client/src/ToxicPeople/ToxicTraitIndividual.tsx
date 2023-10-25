@@ -77,8 +77,63 @@ function ToxicTraitIndividual() {
       p: 4,
     };
 
-    function handleUpdate () {
 
+      async function updateTrait(id:string, firstname:string, lastname:string, pictureUrl: string, traits: string[] ) {
+        const res = await postData('toxic/update', {
+          id: id,
+          firstName: firstname,
+          lastName: lastname,
+          pictureUrl: pictureUrl,
+          toxictraits: traits,
+        });
+          if(!(res.error)) {
+            handleClose()
+            getPerson(id)
+          } else {
+            alert("Error Updating Person" + res.error)
+          }
+        }
+
+    function isvalidURL(str: string) {
+      let url;
+      
+      try {
+        url = new URL(str);
+      } catch (_) {
+        return false;  
+      }
+    
+      return url.protocol === "http:" || url.protocol === "https:";
+    }
+
+    const handleUpdate = () => {
+      let firstname = (document.getElementById("firstname") as HTMLInputElement).value
+      let lastname = (document.getElementById("lastname") as HTMLInputElement).value
+      let pictureUrl = (document.getElementById("pictureUrl") as HTMLInputElement).value
+      let toxictraits = (document.getElementById("toxictraits") as HTMLInputElement).value
+
+      let splits = toxictraits.split("\n").filter(e => (e.trim().length > 0))
+      
+
+      if(!firstname) {
+        alert("Please Enter a First Name");
+        return;
+      }
+      if(!lastname) {
+        alert("Please enter a last name");
+        return;
+      }
+      if(!pictureUrl || !(isvalidURL(pictureUrl))) {
+        alert("Please enter a valid picture URL");
+        return;
+      }
+      if(splits.length < 3 ) {
+        alert("Please enter at least 3 traits");
+        return;
+      }
+      if(person) {
+        updateTrait((person as Person)._id, firstname, lastname, pictureUrl, splits)
+      }
     }
 
     function arrayToString(traits: string[]) {
@@ -136,9 +191,9 @@ function ToxicTraitIndividual() {
            <div className="modalwrapper">
               <div className="modalheader">Update Trait</div>
               <div className="feilds">
-                <TextField required id="firstname" label="First Name" variant="outlined" className="inputF" value={(person as Person).firstName} /  >
-                <TextField required id="lastname" label="Last Name" variant="outlined" className="inputF" value={(person as Person).lastName} /  >
-                <TextField required id="pictureUrl" label="Picture URL" variant="outlined" className="inputF" value={(person as Person).pictureUrl} /  >
+                <TextField required id="firstname" label="First Name" variant="outlined" className="inputF" defaultValue={(person as Person).firstName} /  >
+                <TextField required id="lastname" label="Last Name" variant="outlined" className="inputF" defaultValue={(person as Person).lastName} /  >
+                <TextField required id="pictureUrl" label="Picture URL" variant="outlined" className="inputF" defaultValue={(person as Person).pictureUrl} /  >
               </div>
               <div className="desc">
                 
@@ -147,7 +202,7 @@ function ToxicTraitIndividual() {
               </div>
               <div className="feilds">
                 <TextField multiline required id="toxictraits" label="Toxic Traits" variant="outlined" className="inputF" 
-                value={arrayToString((person as Person).toxicTraits)}
+                defaultValue={arrayToString((person as Person).toxicTraits)}
                 
                 /  >
               </div>
