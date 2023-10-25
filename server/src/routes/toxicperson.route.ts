@@ -4,21 +4,28 @@
  * desired function.
  */
 
-import Router from 'express'
+import Router from 'express';
 import {
-getAllToxicTraits, getToxicTraitFromID, deleteToxicTraitFromID, makeToxicTrait, updateToxicPersonFromID
-} from '../controllers/toxicperson.controller'
+  getAllToxicTraits,
+  getToxicTraitFromID,
+  getToxicTraitFromName,
+  deleteToxicTraitFromID,
+  makeToxicTrait,
+  updateToxicPersonFromID,
+} from '../controllers/toxicperson.controller';
 
-const router = Router()
+const router = Router();
 
-router.get('/get-all', getAllToxicTraits)
+router.get('/get-all', getAllToxicTraits);
 
-router.post('/get-trait-from-id', getToxicTraitFromID)
+router.post('/get-trait-from-id', getToxicTraitFromID);
 
-router.post('/delete', deleteToxicTraitFromID)
+router.post('/get-trait-from-name', getToxicTraitFromName);
 
-router.post('/create', makeToxicTrait)
+router.post('/delete', deleteToxicTraitFromID);
 
-router.post('/update', updateToxicPersonFromID)
+router.post('/create', makeToxicTrait);
+
+router.post('/update', updateToxicPersonFromID);
 
 export default router;
