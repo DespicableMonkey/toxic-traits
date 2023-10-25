@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 // import { ToxicPerson, IToxicPerson } from '../../../server/src/models/toxicperson.model'
 import { useNavigate } from "react-router-dom";
 
+
+
 interface Person {
     _id: string;
     firstName: string;
@@ -40,12 +42,14 @@ interface Person {
       }
   ]
 
+
+
 function ToxicTraitsPage() {
 
     const navigate = useNavigate();
   
-    function handleClick() {
-      navigate("/ToxicTraitIndividual");
+    function handleClick(firstName: string, pictureUrl: string) {
+      navigate(`/ToxicTraitIndividual/${firstName}/${encodeURIComponent(pictureUrl)}`);
     }
   
   return (
@@ -62,7 +66,7 @@ function ToxicTraitsPage() {
             {people.map((person, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <CardActions>
-                  <Button type="button" onClick={handleClick}>
+                  <Button type="button" onClick={() => handleClick(person.firstName, person.pictureUrl)}>
                 <PersonCard name={person.firstName} image={person.pictureUrl}  />
                 </Button>
                 </CardActions>

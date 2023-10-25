@@ -44,6 +44,8 @@ function App() {
                       path="/verify-account/:token"
                       element={<VerifyAccountPage />}
                     />
+                    <Route path="/ToxicTraitIndividual/:firstName/:pictureUrl" element={<ToxicTraitIndividual />} />
+
 
                     <Route
                       path="/email-reset"
