@@ -1,0 +1,111 @@
+.photo {
+    width: 100%;
+    background-color: red;
+    height: 60vh;
+}
+
+.photoimg {
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+}
+
+.photowrapper .photoverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60vh;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+    background: rgba(0, 0, 0, .75);
+    
+}
+.photowrapper .phototext {
+    font-size: 6rem;
+    color: white;
+    font-weight: 900;   
+}
+
+.photowrapper .backbutton {
+    color: white;
+    background-color: black;
+    font-size: 2rem;
+    font-weight: 500;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 1rem;
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    
+}
+.posright {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+}
+
+.photowrapper .deletebutton {
+    color: white;
+    background-color: red;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 1rem;
+    display: block;
+    margin-left: 10px; 
+}
+
+.photowrapper .updatebutton {
+    color: white;
+    background-color: #3B71CA;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 1rem;
+    display: block;
+    margin-left: 10px; 
+}
+
+.updatebutton:hover {
+    cursor: pointer;
+}
+.deletebutton:hover{
+    cursor: pointer;
+}
+
+
+.photowrapper .backbutton:hover {
+    cursor: pointer;
+}
+
+.traitwrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.traitwrapper .trait {
+    color: black;
+    font-size: 2rem;
+    font-weight: 500
+}
+.toxictitle {
+    color: black;
+    font-size: 3rem;
+    font-weight: 900
+}

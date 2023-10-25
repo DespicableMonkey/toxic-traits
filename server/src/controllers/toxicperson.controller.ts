@@ -18,7 +18,7 @@ import {
 } from '../services/toxicperson.service';
 
 
-const getAllToxicTraits = async (
+  const getAllToxicTraits = async (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
@@ -35,7 +35,7 @@ const getAllToxicTraits = async (
     );
   };
 
-   function isURL(str: string) {
+function isURL(str: string) {
     var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
     '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
@@ -45,7 +45,7 @@ const getAllToxicTraits = async (
     return pattern.test(str);
   }
 
-  const getToxicTraitFromID = async (
+const getToxicTraitFromID = async (
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
@@ -92,7 +92,7 @@ const getAllToxicTraits = async (
             next(ApiError.internal("Unable to delete Toxic Trait by ID"))
         })
     )
-  }
+}
 
   const makeToxicTrait = async (
     req: express.Request,
@@ -100,13 +100,14 @@ const getAllToxicTraits = async (
     next: express.NextFunction,
   ) => {
     const {firstName, lastName, pictureUrl, toxictraits } = req.body;
+    const s : [string] = toxictraits
     if ( !firstName || !lastName || !pictureUrl || !toxictraits) {
       next(
-        ApiError.missingFields(['firstName', 'lastName', 'pictureUrl', 'toxictraits']),
+        ApiError.badRequest(firstName + " " + lastName + " " + pictureUrl + " " + toxictraits)
+        // ApiError.missingFields(['firstName', 'lastName', 'pictureUrl', 'toxictraits']),
       );
       return;
     }
-  
     const nameRegex = /^[a-z ,.'-]+/i;
   
     if (
@@ -119,31 +120,30 @@ const getAllToxicTraits = async (
       next(ApiError.badRequest('Invalid id, firstname, lastname, picture, or toxic traits.'));
       return;
     }
+    
   
     // Check if user exists
-    const existingToxicTrait: IToxicPerson | null = await getToxicTraitByName(firstName, lastName)
-    if (existingToxicTrait && 
-        existingToxicTrait.firstName.trim().toLowerCase() == firstName.trim().toLowerCase() &&
-        existingToxicTrait.lastName.trim().toLowerCase() == firstName.trim().toLowerCase()
-        ) {
-      next(
-        ApiError.badRequest(
-          `An account with email ${firstName} and ${lastName} already exists.`,
-        ),
-      );
-      return;
-    }
-  
+    // const existingToxicTrait: IToxicPerson | null = await getToxicTraitByName(firstName, lastName)
+
+    // if (existingToxicTrait) {
+    //   next(
+    //     ApiError.badRequest(
+    //       `An account with email ${firstName} and ${lastName} already exists.`,
+    //     ),
+    //   );
+    //   return;
+    // }
+
+
     // Create toxic trait
     try {
       const toxicTraits = await createToxicTrait(
         firstName,
         lastName,
         pictureUrl,
-        toxictraits
+        s
       );
-      await toxicTraits!.save()
-      res.sendStatus(StatusCode.CREATED);
+      res.sendStatus(StatusCode.CREATED).send(toxicTraits)
     } catch (err) {
       next(ApiError.internal('Unable to create Toxic Trait.'));
     }
@@ -202,4 +202,34 @@ const getAllToxicTraits = async (
     }
   };
 
-  export { getAllToxicTraits, getToxicTraitFromID, deleteToxicTraitFromID, makeToxicTrait, updateToxicPersonFromID }
+  const getToxicTraitFromName = async (
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction,
+  ) => {
+    const { firstName, lastName } = req.body
+    if(!firstName || !lastName) {
+        next(
+            // ApiError.missingFields(['id'])
+            ApiError.missingFields(["firstName", "lastName"])
+        );
+        return
+    }
+
+    return (
+        getToxicTraitByName(firstName, lastName)
+        .then((toxicTrait) => {
+            if(toxicTrait) {
+                res.status(StatusCode.OK).send(toxicTrait)
+            } else {
+                res.status(StatusCode.BAD_REQUEST)
+            }
+        })
+        .catch((e) => {
+            next(ApiError.internal("Unable to fetch Toxic Trait by ID"))
+        })
+    )
+  }
+
+
+  export { getAllToxicTraits, getToxicTraitFromID, getToxicTraitFromName, deleteToxicTraitFromID, makeToxicTrait, updateToxicPersonFromID }
