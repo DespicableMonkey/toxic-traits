@@ -1,11 +1,14 @@
-import React from 'react';
-import { TextField, Link, Typography, Grid  } from '@mui/material';
-import PersonCard from './Card';
+import { TextField, Link, Typography  } from '@mui/material';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 // import { ToxicPerson, IToxicPerson } from '../../../server/src/models/toxicperson.model'
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Box } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
+import { Grid, InputBase } from '@mui/material';
+import PersonCard from './Card';
 
 interface Person {
     _id: string;
@@ -70,13 +73,12 @@ function ToxicTraitsPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
           />
       </Box>
-      </Grid>
         <Grid container spacing={3}>
-            {people.map((person, index) => (
+            {filteredPeople.map((person, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4}>
                   <CardActions>
                   <Button type="button" onClick={() => handleClick(person.firstName, person.pictureUrl)}>
-                <PersonCard name={person.firstName} image={person.pictureUrl}  />
+                <PersonCard name={person.firstName} image={person.pictureUrl} description={person.toxicTraits} />
                 </Button>
                 </CardActions>
                 </Grid>
