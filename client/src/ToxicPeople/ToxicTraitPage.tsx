@@ -275,7 +275,14 @@ function ToxicTraitsPage() {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-              <div className="modalheader">Successfully created new Toxic Trait</div>
+              <div className="modalheader">
+                <div className="sicc">
+                  Successfully created new Toxic Trait
+                </div>
+              </div>
+              <div className="footer">
+                <div className="confirmbutton" onClick={handleClose2}>Close</div>
+              </div>
           </Box>
         </Modal>
     </div>
